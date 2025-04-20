@@ -24,7 +24,7 @@ export default function ViewReview() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://localhost:3000/reviews'); // 👈 Replace with your IP
+        const response = await fetch('http://192.168.30.11:3000/reviews'); // 👈 Replace with your IP
         const data = await response.json();
         if (Array.isArray(data)) {
           setReviews(data);
@@ -65,7 +65,7 @@ export default function ViewReview() {
             {review.image && (
               <Image
                 source={{
-                  uri: `http://localhost:3000/${review.image}`, // 👈 Ensure image is served
+                  uri: `http://192.168.30.11:3000/${review.image}`, // 👈 Ensure image is served
                 }}
                 style={styles.image}
               />

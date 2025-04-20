@@ -246,7 +246,7 @@ export default function AddReview() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/reviews', {
+      const response = await fetch('http://192.168.30.11:3000/reviews', {
         method: 'POST',
         body: formData,
       });

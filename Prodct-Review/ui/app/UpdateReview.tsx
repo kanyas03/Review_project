@@ -23,14 +23,14 @@ export default function UpdateReview() {
 
   const fetchReview = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/reviews/${id}`);
+      const res = await fetch(`http://192.168.30.11:3000/reviews/${id}`);
       const data = await res.json();
       setProductName(data.productName);
       setReviewText(data.reviewText);
       setRating(data.rating);
       setUsername(data.username);
       if (data.image) {
-        setImage({ uri: `http://localhost:3000/${data.image}` });
+        setImage({ uri: `http://192.168.30.11:3000/${data.image}` });
       }
     } catch (error) {
       console.error(error);
