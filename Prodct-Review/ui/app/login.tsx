@@ -15,7 +15,7 @@ export default function Login() {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch('http://192.168.116.11:3000/user/login', {
+      const res = await fetch('http://192.168.6.94:3000/user/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),

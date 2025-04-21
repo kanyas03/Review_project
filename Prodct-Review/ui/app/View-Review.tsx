@@ -6,13 +6,14 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 
 type Review = {
   _id: string;
   productName: string;
   reviewText: string;
-  rating: number;
   username: string;
   image?: string;
 };
@@ -20,11 +21,12 @@ type Review = {
 export default function ViewReview() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch('http://192.168.30.11:3000/reviews'); // 👈 Replace with your IP
+        const response = await fetch('http://192.168.6.94:3000/reviews');
         const data = await response.json();
         if (Array.isArray(data)) {
           setReviews(data);
@@ -40,6 +42,27 @@ export default function ViewReview() {
 
     fetchReviews();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      const response = await fetch(`http://192.168.6.94:3000/reviews/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setReviews((prev) => prev.filter((review) => review._id !== id));
+      } else {
+        const errorData = await response.json();
+        console.error('Delete failed:', errorData.message);
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+    }
+  };
+
+  const handleUpdate = (id: string) => {
+    router.push(`/update/${id}`);
+  };
 
   if (loading) {
     return (
@@ -60,16 +83,30 @@ export default function ViewReview() {
           <View key={review._id} style={styles.card}>
             <Text style={styles.productName}>{review.productName}</Text>
             <Text style={styles.text}>User: {review.username}</Text>
-            <Text style={styles.text}>Rating: {review.rating}</Text>
             <Text style={styles.text}>Review: {review.reviewText}</Text>
             {review.image && (
               <Image
                 source={{
-                  uri: `http://192.168.30.11:3000/${review.image}`, // 👈 Ensure image is served
+                  uri: `http://192.168.6.94:3000/${review.image}`,
                 }}
                 style={styles.image}
               />
             )}
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                style={styles.updateBtn}
+                onPress={() => handleUpdate(review._id)}
+              >
+                <Text style={styles.btnText}>Update</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.deleteBtn}
+                onPress={() => handleDelete(review._id)}
+              >
+                <Text style={styles.btnText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ))
       )}
@@ -124,5 +161,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#9DCF8E',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 12,
+  },
+  updateBtn: {
+    backgroundColor: '#3c8256',
+    padding: 10,
+    borderRadius: 8,
+    width: '48%',
+    alignItems: 'center',
+  },
+  deleteBtn: {
+    backgroundColor: '#3c8256',
+    padding: 10,
+    borderRadius: 8,
+    width: '48%',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
