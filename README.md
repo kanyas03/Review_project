@@ -39,14 +39,14 @@ Built with the **React Native** (Expo Router) for the frontend, **NestJS** (with
 1. **Clone the Repository:**  
    ```bash
    git clone git@github.com:YourUsername/trustvibe.git
-Backend Setup (NestJS):
 
-bash
-Copy
-Edit
+## ⚙️ Backend Setup (NestJS)
+
+```bash
 cd backend
 npm install
 npm run start:dev
+
 Frontend Setup (React Native with Expo):
 
 bash
