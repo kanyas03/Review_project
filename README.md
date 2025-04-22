@@ -45,7 +45,7 @@ Built with the **React Native** (Expo Router) for the frontend, **NestJS** (with
 ```bash
 cd server
 npm install
-npm run start:dev ```
+npm run start:dev 
 
 ## 💻 **Frontend Setup (React Native with Expo)**
 cd ui
